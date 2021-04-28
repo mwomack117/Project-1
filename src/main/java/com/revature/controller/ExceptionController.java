@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.revature.dto.MessageDTO;
 import com.revature.exceptions.BadParameterException;
+import com.revature.exceptions.EmailAlreadyExistsException;
 import com.revature.exceptions.InvalidLoginException;
 import com.revature.exceptions.UsernameAlreadyExistsException;
 
@@ -32,12 +33,19 @@ public class ExceptionController implements Controller {
 		ctx.status(400); 
 		ctx.json(new MessageDTO(e.getMessage()));
 	};
+	
+	private ExceptionHandler<EmailAlreadyExistsException> emailAlreadyExistsExceptionHandler = (e, ctx) -> {
+		logger.warn("A user provided a bad parameter. Exception message is: \n " + e.getMessage());
+		ctx.status(400); 
+		ctx.json(new MessageDTO(e.getMessage()));
+	};
 
 	@Override
 	public void mapEndpoints(Javalin app) {
 		app.exception(BadParameterException.class, badParameterExceptionHandler);
 		app.exception(InvalidLoginException.class, invalidLoginExceptionHandler);
 		app.exception(UsernameAlreadyExistsException.class, usernameAlreadyExistsExceptionHandler);
+		app.exception(EmailAlreadyExistsException.class, emailAlreadyExistsExceptionHandler);
 	}
 
 }

@@ -66,5 +66,19 @@ public class UserRepository {
 			return null;
 		}
 	}
+	
+	public User checkIfEmailExistsAlready(String email) {
+		Session session = SessionUtility.getSessionFactory().openSession();
+
+		Query usernameQuery = session.createQuery("FROM User where email = :email").setParameter("email", email);
+
+		User user = (User) usernameQuery.uniqueResult();
+		
+		if (user != null ) {
+			return user;
+		} else {
+			return null;
+		}
+	}
 
 }

@@ -4,6 +4,7 @@ import com.revature.dao.UserRepository;
 import com.revature.dto.LoginDTO;
 import com.revature.dto.PostUserDTO;
 import com.revature.exceptions.BadParameterException;
+import com.revature.exceptions.EmailAlreadyExistsException;
 import com.revature.exceptions.InvalidLoginException;
 import com.revature.exceptions.UsernameAlreadyExistsException;
 import com.revature.models.User;
@@ -22,7 +23,7 @@ public class UserService {
 	}
 	
 
-	public User addUser(PostUserDTO userDTO) throws BadParameterException, UsernameAlreadyExistsException {
+	public User addUser(PostUserDTO userDTO) throws BadParameterException, UsernameAlreadyExistsException, EmailAlreadyExistsException {
 		if (userDTO.getUserName().trim().equals("") || userDTO.getPassword().trim().equals("") || userDTO.getEmail().trim().equals("")) {
 			throw new BadParameterException("Cannot have a blank username, password, or email");
 		}
@@ -31,9 +32,13 @@ public class UserService {
 		}
 		
 		User checkUsername = userRepository.checkIfUsernameExistsAlready(userDTO.getUserName());
+		User checkEmail = userRepository.checkIfEmailExistsAlready(userDTO.getEmail());
 		
 		if (checkUsername != null) {
-			throw new UsernameAlreadyExistsException("Sorry, that username already exists.");
+			throw new UsernameAlreadyExistsException("Sorry, that username is taken.");
+		}
+		if (checkEmail != null) {
+			throw new EmailAlreadyExistsException("Sorry, that email is taken.");
 		}
 		
 		User user = userRepository.addUser(userDTO);

@@ -1,14 +1,16 @@
-form {
+#signin-form {
   max-width: 320px;
   margin: auto;
 }
 
 a {
   text-decoration: none;
-  font-size: 1.4rem;
-  margin-right: 1rem;
 }
 
 #sign-out:hover {
   color: lightgrey;
+}
+
+#registerModal {
+  padding: 1rem;
 }

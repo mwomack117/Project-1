@@ -63,7 +63,7 @@ public class UserController implements Controller {
 
 	@Override
 	public void mapEndpoints(Javalin app) {
-		app.post("/user", addUserHandler);
+		app.post("/register", addUserHandler);
 		app.post("/login", loginHandler);
 		app.get("/current_user", currentUserHandler);
 		app.post("/logout", logoutHandler);

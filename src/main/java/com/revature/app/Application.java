@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.revature.controller.Controller;
+import com.revature.controller.ExceptionController;
 import com.revature.controller.UserController;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementStatus;
@@ -37,7 +38,7 @@ public class Application {
 			String httpMethod = ctx.req.getMethod();
 			logger.info(httpMethod + " request to endpoint " + URI + " received");
 		});
-		 mapControllers(new UserController());
+		 mapControllers(new UserController(), new ExceptionController());
 
 		app.start(7001);
 
