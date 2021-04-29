@@ -19,14 +19,6 @@ public class UserRepository {
 
 		Transaction tx = session.beginTransaction();
 
-//		Query usernameQuery = session.createQuery("FROM User where username = :username").setParameter("username",
-//				userDTO.getUserName());
-//
-//		User user = (User) usernameQuery.uniqueResult();
-//		if (user != null) {
-//			throw new UsernameAlreadyExistsException("Sorry, that username already exists.");
-//		} else {
-
 			User newUser = new User(0, userDTO.getUserName(), userDTO.getPassword(), userDTO.getFirstName(),
 					userDTO.getLastName(), userDTO.getEmail(), new UserRoles(1, "Employee"));
 

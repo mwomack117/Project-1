@@ -42,7 +42,7 @@ public class UserController implements Controller {
 		ctx.status(200);
 	};
 
-	private Handler currentUserHandler = ctx -> {
+	private Handler currentUserHandler = ctx -> {		
 		User user = (User) ctx.sessionAttribute("currentlyLoggedInUser");
 
 		if (user == null) {
@@ -56,7 +56,6 @@ public class UserController implements Controller {
 	};
 
 	private Handler logoutHandler = (ctx) -> {
-
 		
 		ctx.req.getSession().invalidate();
 	};

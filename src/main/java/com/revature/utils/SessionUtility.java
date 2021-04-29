@@ -16,7 +16,7 @@ public class SessionUtility {
 					.configure("hibernate.cfg.xml")
 					.buildSessionFactory();
 		}
-		
+		System.out.println(sessionFactory);
 		return sessionFactory;
 	}
 
