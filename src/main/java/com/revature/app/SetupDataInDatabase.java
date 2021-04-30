@@ -16,12 +16,13 @@ import com.revature.utils.SessionUtility;
 public class SetupDataInDatabase {
 
 	public static void main(String[] args) {
-		Session session = SessionUtility.getSessionFactory().openSession();
+		//Session session = SessionUtility.getSessionFactory().openSession();
 
-		User user = session.get(User.class, 5);
-		System.out.println(user);
+//		User user = session.get(User.class, 5);
+//		System.out.println(user);
 
-		//List<Reimbursement> reimbs = (List<Reimbursement>) session.createQuery("FROM Reimbursement R WHERE R.author = :user").setParameter("user", user);
+		// List<Reimbursement> reimbs = (List<Reimbursement>) session.createQuery("FROM
+		// Reimbursement R WHERE R.author = :user").setParameter("user", user);
 //		Query query = session.createQuery("FROM Reimbursement R WHERE R.author = :user").setParameter("user", user);
 //		List<Reimbursement> reimbList = query.getResultList(); //no type warning
 //		System.out.println(reimbList);
@@ -35,7 +36,7 @@ public class SetupDataInDatabase {
 //		Reimbursement reimb = (Reimbursement) query.uniqueResult();
 //		System.out.println(reimb);
 
-//		Transaction tx = session.beginTransaction();
+		//Transaction tx = session.beginTransaction();
 
 //		User user = session.get(User.class, 5);
 //		System.out.println(user);
@@ -60,10 +61,10 @@ public class SetupDataInDatabase {
 //		UserRoles ur =  new UserRoles(0, "Employee");
 //		UserRoles ur2 =  new UserRoles(0, "Finance Manager");
 
-		// User u1 = new User(0, "LJ107", "password", "Larry", "Johnson",
-		// "LarryJ@gmail.com", new UserRoles(2,"Finance Manager"));
-		// User u2 = new User(0, "JcG79", "password", "Jennifer", "Greer",
-		// "JenCGreer@yahoo.com", new UserRoles(2,"Finance Manager"));
+//		User m1 = new User(0, "Larry117", "password", "Larry", "Johnson", "LarryJ@gmail.com",
+//				new UserRoles(2, "Finance Manager"));
+//		User m2 = new User(0, "Jen117", "password", "Jennifer", "Greer", "JenCGreer@yahoo.com",
+//				new UserRoles(2, "Finance Manager"));
 //
 //		session.save(reimbType);
 //		session.save(reimbType1);
@@ -74,10 +75,10 @@ public class SetupDataInDatabase {
 //		session.save(reimbStatus3);
 //		session.save(ur);
 //		session.save(ur2);
-		// session.save(u1);
-		// session.save(u2);
-
-		// tx.commit();
+//		session.save(m1);
+//		session.save(m2);
+//
+		//tx.commit();
 
 	}
 

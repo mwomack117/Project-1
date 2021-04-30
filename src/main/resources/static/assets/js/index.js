@@ -17,7 +17,7 @@ function login() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(loginData)
+        body: JSON.stringify(loginData),
     }).then(response => {
         if (response.status == 200) {
             window.location.href = "/employee.html"
@@ -27,18 +27,18 @@ function login() {
     })
 }
 
-function renderCurrentUser() {
-    fetch("http://localhost:7001/current_user", {
-        method: "GET",
-        credentials: "include",
-    }).then(response => {
-        console.log(response);
-        if (response.status == 400 || response.userRoles.id != 1) {
-            window.location.href = "/";
-        }
-        return response.json();
-    })
-}
+// function renderCurrentUser() {
+//     fetch("http://localhost:7001/current_user", {
+//         method: "GET",
+//         credentials: "include",
+//     }).then(response => {
+//         console.log(response);
+//         if (response.status == 400 || response.userRoles.id != 1) {
+//             window.location.href = "/";
+//         }
+//         return response.json();
+//     })
+// }
 
 function displayInvalidLogin() {
     let bodyElement = document.querySelector("form");
@@ -56,11 +56,11 @@ function displayInvalidLogin() {
 // ------- HANDLE REGISTER START ------ //
 document.querySelector("#submitRegistration").addEventListener("click", register);
 function register() {
+    let userName = document.getElementById("inputUsername").value;
+    let password = document.getElementById("inputPassword").value;
     let firstName = document.getElementById("inputFirstname").value;
     let lastName = document.getElementById("inputLastname").value;
     let email = document.getElementById("inputEmail").value;
-    let userName = document.getElementById("inputUsername").value;
-    let password = document.getElementById("inputPassword").value;
 
     let registerForm = document.getElementById("register-form");
 
@@ -84,7 +84,9 @@ function register() {
             window.location.reload();
             alert("successful registration!")
         } else if (response.status == 400) {
-            displayErrorMessage(response);
+            registerForm.reset();
+            //window.location.reload();
+            //displayErrorMessage(response);
         }
     })
 }

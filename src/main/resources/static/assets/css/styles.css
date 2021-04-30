@@ -1,3 +1,12 @@
+#brand {
+  font-size: 2rem;
+  margin-left: 1rem;
+}
+
+#brand span {
+  font-size: 1rem;
+}
+
 #signin-form {
   max-width: 320px;
   margin: auto;
@@ -7,10 +16,19 @@ a {
   text-decoration: none;
 }
 
+#sign-out {
+  margin-right: 2rem;
+  color: white;
+}
 #sign-out:hover {
   color: lightgrey;
 }
 
 #registerModal {
   padding: 1rem;
+}
+
+#user {
+  margin-left: 1rem;
+  margin-top: .5rem;
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.revature.dao.ReimbursementRepository;
 import com.revature.dto.ReimbursementDTO;
+import com.revature.exceptions.BadReimbursementFormatException;
+import com.revature.exceptions.BadReimbursmentAmountException;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementType;
 import com.revature.models.User;
@@ -21,7 +23,14 @@ public class ReimbursementService {
 		this.reimbursementRepository = new ReimbursementRepository();
 	}
 
-	public Reimbursement addReimb(ReimbursementDTO reimbDTO, User author) {
+	public Reimbursement addReimb(ReimbursementDTO reimbDTO, User author) throws BadReimbursmentAmountException, BadReimbursementFormatException {
+		if(reimbDTO.getReimbAmount() < 1) {
+			throw new BadReimbursmentAmountException("Reimbursment amount must be greate than zero");
+		}
+		if(reimbDTO.getReimbDescription().trim().equals("") || reimbDTO.getType().trim().equals("")) {
+			throw new BadReimbursementFormatException("Reimbursement type and description cannot be blank");
+		}
+		
 		Reimbursement reimb = reimbursementRepository.addReimb(reimbDTO, author);
 		return reimb;
 	}

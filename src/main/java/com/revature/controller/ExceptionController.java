@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.revature.dto.MessageDTO;
 import com.revature.exceptions.BadParameterException;
+import com.revature.exceptions.BadReimbursementFormatException;
+import com.revature.exceptions.BadReimbursmentAmountException;
 import com.revature.exceptions.EmailAlreadyExistsException;
 import com.revature.exceptions.InvalidLoginException;
 import com.revature.exceptions.UsernameAlreadyExistsException;
@@ -39,6 +41,18 @@ public class ExceptionController implements Controller {
 		ctx.status(400); 
 		ctx.json(new MessageDTO(e.getMessage()));
 	};
+	
+	private ExceptionHandler<BadReimbursmentAmountException> badReimbursmentAmountExceptionHandler = (e, ctx) -> {
+		logger.warn("A user provided a bad parameter. Exception message is: \n " + e.getMessage());
+		ctx.status(400); 
+		ctx.json(new MessageDTO(e.getMessage()));
+	};
+	
+	private ExceptionHandler<BadReimbursementFormatException> badReimbursementFormatExceptionHandler = (e, ctx) -> {
+		logger.warn("A user provided a bad parameter. Exception message is: \n " + e.getMessage());
+		ctx.status(400); 
+		ctx.json(new MessageDTO(e.getMessage()));
+	};
 
 	@Override
 	public void mapEndpoints(Javalin app) {
@@ -46,6 +60,8 @@ public class ExceptionController implements Controller {
 		app.exception(InvalidLoginException.class, invalidLoginExceptionHandler);
 		app.exception(UsernameAlreadyExistsException.class, usernameAlreadyExistsExceptionHandler);
 		app.exception(EmailAlreadyExistsException.class, emailAlreadyExistsExceptionHandler);
+		app.exception(BadReimbursmentAmountException.class, badReimbursmentAmountExceptionHandler);
+		app.exception(BadReimbursementFormatException.class, badReimbursementFormatExceptionHandler);
 	}
 
 }
