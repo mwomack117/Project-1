@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.revature.dto.ReimbursementDTO;
+import com.revature.dto.StatusDTO;
 import com.revature.models.Reimbursement;
 import com.revature.models.User;
 import com.revature.service.ReimbursementService;
@@ -33,18 +34,43 @@ public class ReimbursementController implements Controller{
 		ctx.json(reimb);
 	};
 	
-	private Handler getAllReimbursementsForUser = ctx -> {
+	private Handler getReimbursementsForUserHandler = ctx -> {
 		User author = (User) ctx.sessionAttribute("currentlyLoggedInUser");
 		
-		List<Reimbursement> reimbs = reimbursementService.getReimbs(author);
+		List<Reimbursement> reimbs = reimbursementService.getReimbsByEmployee(author);
 		
+		ctx.status(201);
 		ctx.json(reimbs);
+	};
+	
+	// route working - no FE
+	private Handler getAllReimbursementsHandler = ctx -> {
+		List<Reimbursement> allReimbs = reimbursementService.getAllreimbs(); 
+		
+		ctx.status(201);
+		ctx.json(allReimbs);
+	};
+	
+	
+	// check setupdata for working example no FE
+	private Handler filterReimbursementsByStatusHandler = ctx -> {
+		StatusDTO statusDTO = ctx.bodyAsClass(StatusDTO.class);
+		
+		List<Reimbursement> filteredList = reimbursementService.filterReimbsByStatus(statusDTO);
+		
+		ctx.json(filteredList);
+	};
+	
+	private Handler changeReimbursementStatusHandler = ctx -> {
+		// TODO
 	};
 
 	@Override
 	public void mapEndpoints(Javalin app) {
-		app.post("/reimbursement", addReimbursementHandler);
-		app.get("/allReimbursements", getAllReimbursementsForUser);
+		app.post("/reimbursements", addReimbursementHandler);
+		app.get("/reimbursements", getReimbursementsForUserHandler);
+		app.get("/reimbursements/users", getAllReimbursementsHandler);
+		app.post("/reimbursements/status", filterReimbursementsByStatusHandler);
 	}
 	
 	

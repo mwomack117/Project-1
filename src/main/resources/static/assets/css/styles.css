@@ -28,7 +28,12 @@ a {
   padding: 1rem;
 }
 
-#user {
+#user-info {
   margin-left: 1rem;
   margin-top: .5rem;
+  font-weight: 500;
+}
+
+#user-info p {
+  margin-bottom: 3px;
 }

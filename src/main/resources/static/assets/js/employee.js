@@ -1,11 +1,11 @@
 window.onload = function () {
     renderCurrentUser();
-    retrieveData();
+    retrieveEmployeeReimbs();
 }
 
 function renderCurrentUser() {
     console.log(document.cookie);
-    fetch("http://localhost:7001/current_user", {
+    fetch("/user/current", {
         method: "GET",
         credentials: "include",
     }).then(response => {
@@ -15,6 +15,7 @@ function renderCurrentUser() {
         }
         return response.json();
     }).then(data => {
+        console.log(data.userRoles.id)
         if (data.userRoles.id == 2) {
             window.location.href = "/manager.html"
         }
@@ -37,7 +38,7 @@ function addReimbursement() {
         type
     }
 
-    fetch("http://localhost:7001/reimbursement", {
+    fetch("/reimbursements", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -48,8 +49,8 @@ function addReimbursement() {
 
 }
 
-function retrieveData() {
-    fetch("http://localhost:7001/allReimbursements", {
+function retrieveEmployeeReimbs() {
+    fetch("/reimbursements", {
         method: "GET",
         credentials: "include"
     }).then((data) => {
@@ -57,6 +58,7 @@ function retrieveData() {
     }).then((response) => {
         console.log(response);
         populateData(response);
+
     })
 }
 
@@ -70,10 +72,12 @@ function populateData(response) {
         tdDesc.innerHTML = item.reimbDescription;
 
         let tdSubmit = document.createElement('td');
-        tdSubmit.innerHTML = item.reimbSubmitted;
+        const dateObject = new Date(item.reimbSubmitted);
+        const formattedDate = dateObject.toDateString(); //change toLocalString() when full data + time is retrieved
+        tdSubmit.innerHTML = formattedDate;
 
         let tdAmnt = document.createElement('td');
-        tdAmnt.innerHTML = item.reimbAmount;
+        tdAmnt.innerHTML = "$" + item.reimbAmount;
 
         let tdType = document.createElement('td');
         tdType.innerHTML = item.reimbType.reimbType;
@@ -99,25 +103,7 @@ function populateData(response) {
         tr.appendChild(tdRslvdDate);
         tr.appendChild(tdRslvdBy);
         tBody.appendChild(tr);
-
     })
-    // let reimbAmount = response.reimbAmount;
-    // let reimbSubmitted = resonse.reimbSubmitted;
-    // let reimbResolved = response.reimbResolved;
-    // let reimbDescription = response.reimbDescription;
-    // let reimbType = response.reimbType.reimbType;
-    // let reimbStatus = response.reimbStatus.reimbStatus;
-    // let receipt = response.receipt;
-
-    // let tdDesc = document.createElement('td');
-    // let tdSubmit = document.createElement('td');
-    // let tdAmnt = document.createElement('td');
-    // let tdType = document.createElement('td');
-    // let tdReceipt = document.createElement('td');
-    // let tdStatus = document.createElement('td');
-    // let tdRlvdDate = document.createElement("td");
-    // let tdRslvdBy = document.createElement('td');
-
 
 }
 
@@ -125,4 +111,10 @@ document.getElementById("sign-out").addEventListener("click", logout);
 
 function logout() {
     document.cookie = "JSESSIONID=; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/";
+    fetch("/user/logout", {
+        method: "POST",
+        credentials: "include"
+    })
 }
+
+

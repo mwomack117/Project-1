@@ -16,7 +16,15 @@ import com.revature.utils.SessionUtility;
 public class SetupDataInDatabase {
 
 	public static void main(String[] args) {
-		//Session session = SessionUtility.getSessionFactory().openSession();
+		Session session = SessionUtility.getSessionFactory().openSession();
+		
+		ReimbursementStatus queryStatus = (ReimbursementStatus) session.createQuery("FROM ReimbursementStatus WHERE reimbStatus='Pending'").getSingleResult();
+		
+		Query query = session.createQuery("FROM Reimbursement WHERE reimbStatus = :status").setParameter("status", queryStatus);
+		List<Reimbursement> fullReimbList = query.list();
+//		
+		System.out.println(fullReimbList);
+		System.out.println((fullReimbList).size());
 
 //		User user = session.get(User.class, 5);
 //		System.out.println(user);

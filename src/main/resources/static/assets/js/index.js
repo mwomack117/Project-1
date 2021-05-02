@@ -1,7 +1,8 @@
 // ------- HANDLE LOGN START ------ //
 document.querySelector("#login").addEventListener("click", login);
 console.log("script loaded");
-function login() {
+function login(event) {
+    event.preventDefault();
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
@@ -10,7 +11,7 @@ function login() {
         password
     }
 
-    fetch('http://localhost:7001/login', {
+    fetch('/user/login', {
         method: 'POST',
         credentials: 'include', // this specifies that when receive cookies, you should include them in future
         // requests. So in our case, it's important so that the backend can identify if we are logged in or not.
@@ -72,7 +73,7 @@ function register() {
         email,
     }
 
-    fetch("http://localhost:7001/register", {
+    fetch("user/register", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

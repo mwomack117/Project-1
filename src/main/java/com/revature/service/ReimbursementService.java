@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revature.dao.ReimbursementRepository;
 import com.revature.dto.ReimbursementDTO;
+import com.revature.dto.StatusDTO;
 import com.revature.exceptions.BadReimbursementFormatException;
 import com.revature.exceptions.BadReimbursmentAmountException;
 import com.revature.models.Reimbursement;
@@ -35,10 +36,22 @@ public class ReimbursementService {
 		return reimb;
 	}
 
-	public List<Reimbursement> getReimbs(User author) {
-		List<Reimbursement> reimbs = reimbursementRepository.getAllReimbs(author);
+	public List<Reimbursement> getReimbsByEmployee(User author) {
+		List<Reimbursement> reimbs = reimbursementRepository.getAllReimbsByEmployee(author);
 		
 		return reimbs;
+	}
+
+	public List<Reimbursement> getAllreimbs() {
+		List<Reimbursement> allReimbs = reimbursementRepository.getAllReimbs();
+		
+		return allReimbs;
+	}
+
+	public List<Reimbursement> filterReimbsByStatus(StatusDTO statusDTO) {
+		List<Reimbursement> filteredReimbs = reimbursementRepository.filterReimbsByStatus(statusDTO);
+		
+		return filteredReimbs;
 	}
 
 }

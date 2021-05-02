@@ -33,12 +33,12 @@ public class Reimbursement {
 	private double reimbAmount;
 	
 	@CreationTimestamp
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "reimb_submitted")
 	private Date reimbSubmitted;
 	
 	@UpdateTimestamp
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "reimb_resolved", nullable = true)
 	private Date reimbResolved;
 	
