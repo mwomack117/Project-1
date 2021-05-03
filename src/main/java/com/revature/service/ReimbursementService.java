@@ -5,6 +5,7 @@ import java.util.List;
 import com.revature.dao.ReimbursementRepository;
 import com.revature.dto.ReimbursementDTO;
 import com.revature.dto.StatusDTO;
+import com.revature.dto.UpdateReimbDTO;
 import com.revature.exceptions.BadReimbursementFormatException;
 import com.revature.exceptions.BadReimbursmentAmountException;
 import com.revature.models.Reimbursement;
@@ -21,7 +22,7 @@ public class ReimbursementService {
 	
 	// for mockito
 	public ReimbursementService(ReimbursementRepository reimbursementRepository) {
-		this.reimbursementRepository = new ReimbursementRepository();
+		this.reimbursementRepository = reimbursementRepository;
 	}
 
 	public Reimbursement addReimb(ReimbursementDTO reimbDTO, User author) throws BadReimbursmentAmountException, BadReimbursementFormatException {
@@ -52,6 +53,12 @@ public class ReimbursementService {
 		List<Reimbursement> filteredReimbs = reimbursementRepository.filterReimbsByStatus(statusDTO);
 		
 		return filteredReimbs;
+	}
+
+	public Reimbursement updateReimb(UpdateReimbDTO updateDTO, User resolver) {
+		Reimbursement updatedReimb = reimbursementRepository.updateReimb(updateDTO, resolver);
+		
+		return updatedReimb;
 	}
 
 }

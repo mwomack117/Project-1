@@ -1,5 +1,6 @@
 package com.revature.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -8,6 +9,7 @@ import org.hibernate.query.Query;
 
 import com.revature.dto.ReimbursementDTO;
 import com.revature.dto.StatusDTO;
+import com.revature.dto.UpdateReimbDTO;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
@@ -19,20 +21,20 @@ public class ReimbursementRepository {
 	public Reimbursement addReimb(ReimbursementDTO reimbDTO, User author) {
 
 		Session session = SessionUtility.getSessionFactory().openSession();
-
 		Transaction tx = session.beginTransaction();
 
 		ReimbursementStatus queryStatus = (ReimbursementStatus) session
 				.createQuery("FROM ReimbursementStatus WHERE reimbStatus='Pending'").getSingleResult();
+		
 		Query queryType = session.createQuery("FROM ReimbursementType WHERE reimbType=:type").setParameter("type",
 				reimbDTO.getType());
+		
 		ReimbursementType type = (ReimbursementType) queryType.uniqueResult();
 
 		Reimbursement newReimb = new Reimbursement(0, reimbDTO.getReimbAmount(), null, null,
 				reimbDTO.getReimbDescription(), null, author, null, queryStatus, type);
 
 		session.save(newReimb);
-
 		tx.commit();
 
 		return newReimb;
@@ -67,6 +69,32 @@ public class ReimbursementRepository {
 		List<Reimbursement> filteredReimbList = filterQuery.list();
 
 		return filteredReimbList;
+	}
+
+	public Reimbursement updateReimb(UpdateReimbDTO updateDTO, User resolver) {
+		Session session = SessionUtility.getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
+		
+		ReimbursementStatus newStatus = (ReimbursementStatus) session
+				.createQuery("FROM ReimbursementStatus WHERE reimbStatus=:newStatus")
+				.setParameter("newStatus", updateDTO.getNewStatus())
+				.getSingleResult();
+		
+		Reimbursement reimbToUpdate = session.get(Reimbursement.class, updateDTO.getReimbId());
+		
+		Date today = new Date();
+		
+		Query query = session.createQuery("UPDATE Reimbursement r SET r.reimbStatus=:status, r.resolver=:resolver, r.reimbResolved=:date WHERE r.id=:id ")
+				.setParameter("status", newStatus)
+				.setParameter("resolver", resolver)
+				.setParameter("date", today)
+				.setParameter("id", reimbToUpdate.getId());
+		query.executeUpdate();
+		
+		Reimbursement updatedReimb = session.get(Reimbursement.class, updateDTO.getReimbId());
+		
+		tx.commit();
+		return updatedReimb;
 	}
 
 //	public ReimbursementType getReimbType (String type) {

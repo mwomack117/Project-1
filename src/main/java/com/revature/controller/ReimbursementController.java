@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.revature.dto.ReimbursementDTO;
 import com.revature.dto.StatusDTO;
+import com.revature.dto.UpdateReimbDTO;
 import com.revature.models.Reimbursement;
 import com.revature.models.User;
 import com.revature.service.ReimbursementService;
@@ -29,6 +30,8 @@ public class ReimbursementController implements Controller{
 
 		ReimbursementDTO reimbDTO = ctx.bodyAsClass(ReimbursementDTO.class);
 		
+		// user form data instead of json 
+		
 		Reimbursement reimb = reimbursementService.addReimb(reimbDTO, author);
 		
 		ctx.json(reimb);
@@ -43,7 +46,6 @@ public class ReimbursementController implements Controller{
 		ctx.json(reimbs);
 	};
 	
-	// route working - no FE
 	private Handler getAllReimbursementsHandler = ctx -> {
 		List<Reimbursement> allReimbs = reimbursementService.getAllreimbs(); 
 		
@@ -61,8 +63,15 @@ public class ReimbursementController implements Controller{
 		ctx.json(filteredList);
 	};
 	
-	private Handler changeReimbursementStatusHandler = ctx -> {
-		// TODO
+	private Handler updateReimbursementHandler = ctx -> {
+		User resolver = (User) ctx.sessionAttribute("currentlyLoggedInUser");
+		
+		UpdateReimbDTO updateDTO = ctx.bodyAsClass(UpdateReimbDTO.class);
+		
+		Reimbursement updatedReimb = reimbursementService.updateReimb(updateDTO, resolver);
+		
+		ctx.status(204);
+		ctx.json(updatedReimb);
 	};
 
 	@Override
@@ -71,6 +80,7 @@ public class ReimbursementController implements Controller{
 		app.get("/reimbursements", getReimbursementsForUserHandler);
 		app.get("/reimbursements/users", getAllReimbursementsHandler);
 		app.post("/reimbursements/status", filterReimbursementsByStatusHandler);
+		app.put("/reimbursements/users/update", updateReimbursementHandler);
 	}
 	
 	

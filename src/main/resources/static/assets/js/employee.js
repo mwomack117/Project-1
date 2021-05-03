@@ -73,7 +73,7 @@ function populateData(response) {
 
         let tdSubmit = document.createElement('td');
         const dateObject = new Date(item.reimbSubmitted);
-        const formattedDate = dateObject.toDateString(); //change toLocalString() when full data + time is retrieved
+        const formattedDate = dateObject.toLocaleString(); //change toLocalString() when full data + time is retrieved
         tdSubmit.innerHTML = formattedDate;
 
         let tdAmnt = document.createElement('td');
@@ -89,10 +89,12 @@ function populateData(response) {
         tdStatus.innerHTML = item.reimbStatus.reimbStatus;
 
         let tdRslvdDate = document.createElement("td");
-        tdRslvdDate.innerHTML = item.reimbResolved;
+        rslvDateObject = new Date(item.reimbResolved);
+        const formattedRslvDate = rslvDateObject.toLocaleString();
+        tdRslvdDate.innerHTML = item.reimbSubmitted === item.reimbResolved ? "" : formattedRslvDate;
 
         let tdRslvdBy = document.createElement('td');
-        tdRslvdBy.innerHTML = item.resolver;;
+        tdRslvdBy.innerHTML = item.resolver === null ? "" : item.resolver.firstName + " " + item.resolver.lastName;
 
         tr.appendChild(tdDesc);
         tr.appendChild(tdSubmit);

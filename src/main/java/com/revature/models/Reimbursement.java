@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,19 +50,19 @@ public class Reimbursement {
 	@Lob
 	private byte[] receipt;
 	
-	@ManyToOne // many reimbs belong to one author
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "reimb_author") // FK 
 	private User author;
 	
-	@ManyToOne // many reimbs belong to one resolver
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "reimb_resolver") // FK 
 	private User resolver;
 	
-	@ManyToOne // many reimbs belong to one status
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "reimb_status_id") // FK 
 	private ReimbursementStatus reimbStatus;
 	
-	@ManyToOne // many reimbs with one type
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "reimb_type_id") // FK 
 	private  ReimbursementType reimbType;
 	

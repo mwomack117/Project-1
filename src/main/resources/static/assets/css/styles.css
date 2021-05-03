@@ -37,3 +37,7 @@ a {
 #user-info p {
   margin-bottom: 3px;
 }
+
+svg path {
+  fill: white;
+}

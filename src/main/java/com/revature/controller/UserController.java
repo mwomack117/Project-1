@@ -60,6 +60,7 @@ public class UserController implements Controller {
 		ctx.req.getSession().invalidate();
 	};
 
+
 	@Override
 	public void mapEndpoints(Javalin app) {
 		app.post("/user/register", addUserHandler);

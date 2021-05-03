@@ -23,32 +23,27 @@ function login(event) {
         if (response.status == 200) {
             window.location.href = "/employee.html"
         } else if (response.status == 400) {
-            displayInvalidLogin();
+            return response.json();
         }
+    }).then(jsonResponse => {
+        console.log(jsonResponse);
+        displayInvalidLogin(jsonResponse.message);
+
     })
 }
 
-// function renderCurrentUser() {
-//     fetch("http://localhost:7001/current_user", {
-//         method: "GET",
-//         credentials: "include",
-//     }).then(response => {
-//         console.log(response);
-//         if (response.status == 400 || response.userRoles.id != 1) {
-//             window.location.href = "/";
-//         }
-//         return response.json();
-//     })
-// }
-
-function displayInvalidLogin() {
+function displayInvalidLogin(message) {
     let bodyElement = document.querySelector("form");
 
     let pElement = document.createElement('p');
     pElement.style.color = 'red';
-    pElement.innerHTML = 'Invalid login!';
+    pElement.innerHTML = message;
 
     bodyElement.appendChild(pElement);
+
+    setTimeout(function () {
+        pElement.innerHTML = "";
+    }, 2000);
 
 }
 
@@ -56,7 +51,9 @@ function displayInvalidLogin() {
 
 // ------- HANDLE REGISTER START ------ //
 document.querySelector("#submitRegistration").addEventListener("click", register);
-function register() {
+function register(e) {
+    e.preventDefault();
+
     let userName = document.getElementById("inputUsername").value;
     let password = document.getElementById("inputPassword").value;
     let firstName = document.getElementById("inputFirstname").value;
@@ -81,21 +78,42 @@ function register() {
         body: JSON.stringify(registerData)
     }).then(response => {
         if (response.status == 201) {
-            registerForm.reset();
-            window.location.reload();
-            alert("successful registration!")
-        } else if (response.status == 400) {
+            displaySuccessfulRegister();
             registerForm.reset();
             //window.location.reload();
-            //displayErrorMessage(response);
+            //alert("successful registration!")
+        } else if (response.status == 400) {
+            return response.json();
         }
+    }).then(jsonResponse => {
+        if (!jsonResponse.message) {
+            return;
+        }
+        displayInvalidRegister(jsonResponse.message);
+
     })
 }
 
-function displayErrorMessage(data) {
-    let errorElement = document.getElementById("error-message");
-    errorElement.style.color = "red";
-    errorElement.innerHTML = `Error: ${data.message}`;
+function displayInvalidRegister(message) {
+    let errorElement = document.getElementById("errorMessage");
+    console.log(errorElement);
+    console.log(message);
+    errorElement.textContent = message;
+
+    setTimeout(function () {
+        errorElement.textContent = "";
+    }, 2000);
+}
+
+function displaySuccessfulRegister() {
+    let successElement = document.getElementById("successMessage");
+
+    successElement.textContent = "Successfully Registered!";
+
+    setTimeout(function () {
+        successElement.textContent = "";
+        window.location.reload();
+    }, 1500);
 }
 
 (function () {

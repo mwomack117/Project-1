@@ -3,6 +3,7 @@ window.onload = function () {
     retrieveAllReimbs();
 }
 
+let jsonData = [];
 
 function renderCurrentUser() {
     fetch("/user/current", {
@@ -26,8 +27,9 @@ radioButtons.forEach(item => {
         console.log(item);
         if (event.target.value == "All") {
             console.log("all function ran")
+            console.log(jsonData)
             clearTable();
-            retrieveAllReimbs();
+            populateData(jsonData);
         } else {
             console.log("filter function ran")
             clearTable();
@@ -44,36 +46,52 @@ function clearTable() {
     }
 }
 
-function retrieveAllReimbs() {
-    fetch("/reimbursements/users", {
+// function retrieveAllReimbs() {
+//     fetch("/reimbursements/users", {
+//         method: "GET",
+//         credentials: "include"
+//     }).then((data) => {
+//         return data.json();
+//     }).then((response) => {
+//         jsonData = response;
+//         console.log("jsonData", jsonData);
+//         console.log("all", response);
+//         populateData(response);
+//     })
+// }
+
+async function retrieveAllReimbs() {
+    let response = await fetch("/reimbursements/users", {
         method: "GET",
         credentials: "include"
-    }).then((data) => {
-        return data.json();
-    }).then((response) => {
-        console.log("all", response);
-        populateData(response);
-    })
+    });
+    let data = await response.json();
+    jsonData = data;
+    console.log("jsonData in global variable", jsonData);
+    return populateData(jsonData);
 }
 
 function filterReimbs(filterValue) {
-    let data = {
-        reimbStatus: filterValue
-    }
-    fetch("/reimbursements/status", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then(response => {
-        return response.json();
+    console.log(jsonData);
+    let data = jsonData.filter(item => item.reimbStatus.reimbStatus === filterValue);
+    populateData(data);
+    // let data = {
+    //     reimbStatus: filterValue
+    // }
+    // fetch("/reimbursements/status", {
+    //     method: "POST",
+    //     credentials: "include",
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(data)
+    // }).then(response => {
+    //     return response.json();
 
-    }).then(jsonResponse => {
-        populateData(jsonResponse);
-        console.log("I'm filtered", jsonResponse);
-    })
+    // }).then(jsonResponse => {
+    //     populateData(jsonResponse);
+    //     console.log("I'm filtered", jsonResponse);
+    // })
 }
 
 function populateData(response) {
@@ -96,26 +114,33 @@ function populateData(response) {
 
         let tdSubmit = document.createElement('td');
         const dateObject = new Date(item.reimbSubmitted);
-        const formattedDate = dateObject.toDateString(); //change toLocalString() when full data + time is retrieved
+        const formattedDate = dateObject.toLocaleString(); //change toLocalString() when full data + time is retrieved
         tdSubmit.innerHTML = formattedDate;
 
         let tdReceipt = document.createElement('td');
-        tdReceipt.innerHTML = item.receipt;
+        tdReceipt.innerHTML =
+            `<div>
+                <button type="button" class="btn btn-sm btn-primary viewReceipt" value=${item.id}
+                data-bs-toggle="modal" data-bs-target="#receiptModal">View</button>
+            </div>`;
 
         let tdStatus = document.createElement('td');
         tdStatus.innerHTML = item.reimbStatus.reimbStatus;
 
         let tdChangeStatus = document.createElement('td');
-        tdChangeStatus.innerHTML = `<div>
-                                        <button type="button" class="btn btn-sm btn-success approveReimb" value=${item.id}>&check;</button>
-                                        <button type="button" class="btn btn-sm btn-danger denyReimb" value=${item.id}>X</button>
-                                    </div>`
+        tdChangeStatus.innerHTML =
+            `<div>
+                <button type="button" class="btn btn-sm btn-success approveReimb" onclick=value=${item.id}>&check;</button>
+                <button type="button" class="btn btn-sm btn-danger denyReimb" value=${item.id}>X</button>
+            </div>`;
 
         let tdRslvdDate = document.createElement("td");
-        tdRslvdDate.innerHTML = item.reimbResolved;
+        const RsvlDateObject = new Date(item.reimbResolved);
+        const rsvlFormattedDate = RsvlDateObject.toLocaleString(); //change toLocalString() when full data + time is retrieved
+        tdRslvdDate.innerHTML = rsvlFormattedDate;
 
         let tdRslvdBy = document.createElement('td');
-        tdRslvdBy.innerHTML = item.resolver;
+        tdRslvdBy.innerHTML = item.resolver === null ? "" : item.resolver.firstName + " " + item.resolver.lastName;
 
         tr.appendChild(tdAuthor);
         tr.appendChild(tdAmnt);
@@ -131,23 +156,89 @@ function populateData(response) {
         tBody.appendChild(tr);
     })
 
-    // let approveBtn = document.getElementsByClassName("approveReimb");
-    // console.log(approveBtn);
-    // Array.from(approveBtn).forEach(function (btn) {
-    //     btn.addEventListener('click', function (e) {
-    //         console.log(e.target.value);
-    //     });
-    // });
+    function addApproveBtnClass() {
+        let approveBtn = document.getElementsByClassName("approveReimb");
+        console.log(approveBtn);
+        Array.from(approveBtn).forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                console.log(e.target.value);
+                approveRequest(e.target.value);
+                window.location.reload();
+            });
+        });
+    };
 
-    // let denyBtn = document.getElementsByClassName("denyReimb");
-    // console.log(denyBtn);
-    // Array.from(denyBtn).forEach(function (btn) {
-    //     btn.addEventListener('click', function (e) {
-    //         console.log(e.target.value);
-    //     });
-    // });
+    function addDenyBtnClass() {
+        let denyBtn = document.getElementsByClassName("denyReimb");
+        console.log(denyBtn);
+        Array.from(denyBtn).forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                console.log(e.target.value);
+                denyRequest(e.target.value);
+                window.location.reload();
+            });
+        });
+    };
+
+    addApproveBtnClass();
+    addDenyBtnClass();
 
 }
+
+// function addApproveBtnClass() {
+//     let approveBtn = document.getElementsByClassName("approveReimb");
+//     console.log(approveBtn);
+//     Array.from(approveBtn).forEach(function (btn) {
+//         btn.addEventListener('click', function (e) {
+//             console.log(e.target.value);
+//             approveRequest(e.target.value);
+//         });
+//     });
+// }
+
+// function addDenyBtnClass() {
+//     let denyBtn = document.getElementsByClassName("denyReimb");
+//     console.log(denyBtn);
+//     Array.from(denyBtn).forEach(function (btn) {
+//         btn.addEventListener('click', function (e) {
+//             console.log(e.target.value);
+//             denyRequest(e.target.value);
+//         });
+//     });
+// }
+
+function denyRequest(value) {
+    let updateData = {
+        newStatus: "Denied",
+        reimbId: value
+    }
+
+    fetch("/reimbursements/users/update", {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updateData)
+    })
+}
+
+function approveRequest(value) {
+    let updateData = {
+        newStatus: "Approved",
+        reimbId: value
+    }
+
+    fetch("/reimbursements/users/update", {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updateData)
+    })
+}
+
 
 
 document.getElementById("sign-out").addEventListener("click", logout);

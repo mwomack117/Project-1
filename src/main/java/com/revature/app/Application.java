@@ -26,7 +26,7 @@ public class Application {
 	private static Logger logger = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
-
+		
 
 		app = Javalin.create((config) -> {
 			config.addStaticFiles("static");

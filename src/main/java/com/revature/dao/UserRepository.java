@@ -6,6 +6,7 @@ import org.hibernate.query.Query;
 
 import com.revature.dto.LoginDTO;
 import com.revature.dto.PostUserDTO;
+import com.revature.encryption.PasswordUtils;
 import com.revature.exceptions.UsernameAlreadyExistsException;
 import com.revature.models.User;
 import com.revature.models.UserRoles;
@@ -13,13 +14,13 @@ import com.revature.utils.SessionUtility;
 
 public class UserRepository {
 
-	public User addUser(PostUserDTO userDTO) throws UsernameAlreadyExistsException {
+	public User addUser(PostUserDTO userDTO, String securePass) throws UsernameAlreadyExistsException {
 
 		Session session = SessionUtility.getSessionFactory().openSession();
 
 		Transaction tx = session.beginTransaction();
 
-			User newUser = new User(0, userDTO.getUserName(), userDTO.getPassword(), userDTO.getFirstName(),
+			User newUser = new User(0, userDTO.getUserName(), securePass, userDTO.getFirstName(),
 					userDTO.getLastName(), userDTO.getEmail(), new UserRoles(1, "Employee"));
 
 			session.save(newUser);
@@ -30,12 +31,12 @@ public class UserRepository {
 		}
 
 
-	public User getUserByUsernameAndPassword(LoginDTO loginDTO) {
+	public User getUserByUsernameAndPassword(LoginDTO loginDTO, String hashedUserInput) {
 		Session session = SessionUtility.getSessionFactory().openSession();
 		
 		Query query = session.createQuery("SELECT u from User u WHERE  u.username = :username AND u.password = :password");
 		query.setParameter("username", loginDTO.getUsername());
-		query.setParameter("password", loginDTO.getPassword());
+		query.setParameter("password", hashedUserInput);
 		
 		User user = (User) query.uniqueResult();
 		if(user != null) {
@@ -72,5 +73,4 @@ public class UserRepository {
 			return null;
 		}
 	}
-
 }

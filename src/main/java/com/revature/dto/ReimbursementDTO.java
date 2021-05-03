@@ -19,7 +19,6 @@ public class ReimbursementDTO {
 	}
 
 	public ReimbursementDTO(double reimbAmount, String reimbDescription, String type) {
-		super();
 		this.reimbAmount = reimbAmount;
 		this.reimbDescription = reimbDescription;
 		this.type = type;
