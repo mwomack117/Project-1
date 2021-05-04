@@ -14,41 +14,50 @@ public class ReimbursementDTO {
 	//private byte[] recieptPhoto;
 	private String type;
 	
+
 	public ReimbursementDTO() {
 		super();
 	}
 
+
 	public ReimbursementDTO(double reimbAmount, String reimbDescription, String type) {
+		super();
 		this.reimbAmount = reimbAmount;
 		this.reimbDescription = reimbDescription;
 		this.type = type;
 	}
-	
-	
 
+	
+	
 	public double getReimbAmount() {
 		return reimbAmount;
 	}
+
 
 	public void setReimbAmount(double reimbAmount) {
 		this.reimbAmount = reimbAmount;
 	}
 
+
 	public String getReimbDescription() {
 		return reimbDescription;
 	}
+
 
 	public void setReimbDescription(String reimbDescription) {
 		this.reimbDescription = reimbDescription;
 	}
 
+
 	public String getType() {
 		return type;
 	}
 
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -61,6 +70,7 @@ public class ReimbursementDTO {
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -86,15 +96,12 @@ public class ReimbursementDTO {
 		return true;
 	}
 
+
 	@Override
 	public String toString() {
 		return "ReimbursementDTO [reimbAmount=" + reimbAmount + ", reimbDescription=" + reimbDescription + ", type="
 				+ type + "]";
 	}
-
-	
-
-	
 	
 	
 

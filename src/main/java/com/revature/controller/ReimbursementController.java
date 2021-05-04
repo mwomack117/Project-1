@@ -14,6 +14,7 @@ import com.revature.service.ReimbursementService;
 
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
+import io.javalin.http.UploadedFile;
 
 public class ReimbursementController implements Controller{
 	
@@ -36,6 +37,23 @@ public class ReimbursementController implements Controller{
 		
 		ctx.json(reimb);
 	};
+	
+	////////////
+//	private Handler addReimbursementHandler = ctx -> {
+//		User author = (User) ctx.sessionAttribute("currentlyLoggedInUser");
+//
+//		UploadedFile upfile = ctx.uploadedFiles().get(0);
+//		ReimbursementDTO reimbDTO = new ReimbursementDTO();
+//		reimbDTO.setReimbAmount(ctx.formParam("reimbAmount"));
+//		reimbDTO.setRecieptPhoto(ctx.formParam("recieptPhoto"));
+//		reimbDTO.setReimbDescription(ctx.formParam("reimbDescription"));
+//		reimbDTO.setType(ctx.formParam("type"));
+//		
+//		Reimbursement reimb = reimbursementService.addReimb(reimbDTO, author);
+//		
+//		ctx.json(reimb);
+	//};
+	//////////////
 	
 	private Handler getReimbursementsForUserHandler = ctx -> {
 		User author = (User) ctx.sessionAttribute("currentlyLoggedInUser");

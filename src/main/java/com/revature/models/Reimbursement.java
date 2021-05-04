@@ -46,7 +46,7 @@ public class Reimbursement {
 	@Column(name = "reimb_description", length = 250)
 	private String reimbDescription;
 	
-	@Column(name = "reimb_receipt")
+	@Column(name = "reimb_receipt", nullable = true)
 	@Lob
 	private byte[] receipt;
 	
