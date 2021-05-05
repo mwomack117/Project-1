@@ -1,15 +1,45 @@
+body {
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  font-family: minion-pro,serif;
+font-weight: 400;
+font-style: normal;
+}
+
+h1, h3, h4, h5 {
+font-family: myriad-pro,sans-serif;
+font-weight: 700;
+font-style: normal;
+}
+
+h6 {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
 #brand {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-left: 1rem;
+  letter-spacing: 1px;
 }
 
 #brand span {
-  font-size: 1rem;
+  font-size: 1.2rem;
+  margin-right: 3px;
+  letter-spacing: 1px;
 }
 
 #signin-form {
-  max-width: 320px;
+  max-width: 400px;
   margin: auto;
+  margin-top: 8rem;
+  background-color: white;
+  padding: 1rem 2.5rem 2rem;
+  border-radius: 6px;
+
 }
 
 a {
@@ -19,6 +49,7 @@ a {
 #sign-out {
   margin-right: 2rem;
   color: white;
+  font-size: 1.15rem;
 }
 #sign-out:hover {
   color: lightgrey;
@@ -28,16 +59,14 @@ a {
   padding: 1rem;
 }
 
-#user-info {
-  margin-left: 1rem;
-  margin-top: .5rem;
+#user-info p {
+  /* margin-bottom: 3px; */
   font-weight: 500;
 }
 
-#user-info p {
-  margin-bottom: 3px;
+.dashContainer {
+  padding: 1.5rem;
+  padding-bottom: 2rem;
+  border-radius: 3px;
 }
 
-svg path {
-  fill: white;
-}

@@ -80,8 +80,6 @@ function register(e) {
         if (response.status == 201) {
             displaySuccessfulRegister();
             registerForm.reset();
-            //window.location.reload();
-            //alert("successful registration!")
         } else if (response.status == 400) {
             return response.json();
         }

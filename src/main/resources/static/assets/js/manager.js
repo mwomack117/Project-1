@@ -3,8 +3,6 @@ window.onload = function () {
     retrieveAllReimbs();
 }
 
-let jsonData = [];
-
 function renderCurrentUser() {
     fetch("/user/current", {
         method: "GET",
@@ -16,7 +14,7 @@ function renderCurrentUser() {
         return response.json();
     }).then(data => {
         let username = data.username;
-        let userInfoElement = document.querySelector("#user");
+        let userInfoElement = document.querySelector("#userMngr");
         userInfoElement.innerHTML = `Successfully logged in as: ${username}`;
     })
 }
@@ -46,20 +44,6 @@ function clearTable() {
     }
 }
 
-// function retrieveAllReimbs() {
-//     fetch("/reimbursements/users", {
-//         method: "GET",
-//         credentials: "include"
-//     }).then((data) => {
-//         return data.json();
-//     }).then((response) => {
-//         jsonData = response;
-//         console.log("jsonData", jsonData);
-//         console.log("all", response);
-//         populateData(response);
-//     })
-// }
-
 async function retrieveAllReimbs() {
     let response = await fetch("/reimbursements/users", {
         method: "GET",
@@ -67,7 +51,6 @@ async function retrieveAllReimbs() {
     });
     let data = await response.json();
     jsonData = data;
-    console.log("jsonData in global variable", jsonData);
     return populateData(jsonData);
 }
 

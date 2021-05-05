@@ -27,7 +27,7 @@ public class UserController implements Controller {
 
 		User user = userService.addUser(userDTO);
 
-		logger.info("A user was added to the database");
+		logger.info("User: "  + userDTO.getUserName() + "was successfuly registerd");
 		ctx.json(user);
 		ctx.status(201);
 	};
@@ -38,6 +38,8 @@ public class UserController implements Controller {
 		User user = userService.login(loginDTO);
 
 		ctx.sessionAttribute("currentlyLoggedInUser", user);
+		
+		logger.info(user.getUsername() + "successfully logged in");
 		ctx.json(user);
 		ctx.status(200);
 	};

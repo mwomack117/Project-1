@@ -20,7 +20,7 @@ function renderCurrentUser() {
             window.location.href = "/manager.html"
         }
         let username = data.username;
-        let userInfoElement = document.querySelector("#user");
+        let userInfoElement = document.querySelector("#userEmp");
         userInfoElement.innerHTML = `Successfully logged in as: ${username}`;
     })
 }
@@ -82,8 +82,14 @@ function populateData(response) {
         let tdType = document.createElement('td');
         tdType.innerHTML = item.reimbType.reimbType;
 
+        // let tdReceipt = document.createElement('td');
+        // tdReceipt.innerHTML = item.receipt;
         let tdReceipt = document.createElement('td');
-        tdReceipt.innerHTML = item.receipt;
+        tdReceipt.innerHTML =
+            `<div>
+                <button type="button" class="btn btn-sm btn-primary viewReceipt" value=${item.id}
+                data-bs-toggle="modal" data-bs-target="#receiptModalEmp">View</button>
+            </div>`;
 
         let tdStatus = document.createElement('td');
         tdStatus.innerHTML = item.reimbStatus.reimbStatus;
@@ -92,6 +98,7 @@ function populateData(response) {
         rslvDateObject = new Date(item.reimbResolved);
         const formattedRslvDate = rslvDateObject.toLocaleString();
         tdRslvdDate.innerHTML = item.reimbSubmitted === item.reimbResolved ? "" : formattedRslvDate;
+        //tdRslvdDate.innerHTML = item.reimbStatus.reimbStatus === "Pending" ? "" : formattedRslvDate;
 
         let tdRslvdBy = document.createElement('td');
         tdRslvdBy.innerHTML = item.resolver === null ? "" : item.resolver.firstName + " " + item.resolver.lastName;

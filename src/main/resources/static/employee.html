@@ -5,58 +5,67 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='shortcut icon' type='image/x-icon' href='./assets/images/favicon.ico' />
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.typekit.net/kzs2oik.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <title>Employee Dashboard</title>
 </head>
 
-<body>
+<body class="bg-secondary">
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
             <h1 class="navbar-brand mb-0 h1" id="brand">
-                E<span>expense</span>R<span>eimbursement</span>S<span>ystem</span></h1>
+                E<span>xpense</span>R<span>eimbursement</span>S<span>ystem</span></h1>
             <a href="/" id="sign-out" class="mr-3">Sign out</a>
         </div>
     </nav>
-    <div id="user-info" class="container-fluid">
-        <p id="user" class="text-success"></p>
-        <h5>Role: Employee</h5>
-    </div>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-4">
-                <h3>Submit Reimbursement</h1>
-                    <hr />
-                    <!-- <form> -->
-                    <form method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="reimbAmount" class="form-label">Reimbursement Amount</label>
-                            <input type="number" min="0" class="form-control" id="reimbAmount"
-                                aria-describedby="emailHelp" required>
-                            <div id="reimbHelp" class="form-text">Please enter a number</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="reimbDescription" class="form-label">Reimbursment Description</label>
-                            <textarea class="form-control" id="reimbDescription" rows="2" required></textarea>
-                        </div>
-                        <select class="form-select mb-3" id="reimbType" aria-label="Select Reimbursement Type" required>
-                            <option selected>Select Type of Reimbursement</option>
-                            <option value="Lodging">Lodging</option>
-                            <option value="Travel">Travel</option>
-                            <option value="Dining">Dining</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <div class="mb-3">
-                            <input type="file" name="file" class="form-control" id="uploadReceipt">
-                            <div id="uploadHelp" class="form-text">Attach a photo of your receipt (Optional)</div>
-                        </div>
-                        <button id="submitReimb" class="btn btn-primary">Submit</button>
-                    </form>
-            </div>
-            <div class="col">
-                <h3>Requests</h1>
+
+    <div style="margin-top: 5rem;">
+
+        <div class="container mt-4 bg-light dashContainer">
+            <div class="row">
+                <div class="col-4">
+                    <h3>Submit Reimbursement</h1>
+                        <div style="padding-bottom: 1px;"></div>
+                        <hr />
+                        <!-- <form> -->
+                        <form>
+                            <div class="mb-3">
+                                <label for="reimbAmount" class="form-label">Reimbursement Amount</label>
+                                <input type="number" min="0" class="form-control" id="reimbAmount"
+                                    aria-describedby="emailHelp" required>
+                                <div id="reimbHelp" class="form-text">Please enter a number</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="reimbDescription" class="form-label">Reimbursment Description</label>
+                                <textarea class="form-control" id="reimbDescription" rows="2" required></textarea>
+                            </div>
+                            <select class="form-select mb-3" id="reimbType" aria-label="Select Reimbursement Type"
+                                required>
+                                <option selected>Select Type of Reimbursement</option>
+                                <option value="Lodging">Lodging</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Dining">Dining</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="mb-3">
+                                <input type="file" name="file" class="form-control" id="uploadReceipt">
+                                <div id="uploadHelp" class="form-text">Attach a photo of your receipt (Optional)</div>
+                            </div>
+                            <button id="submitReimb" class="btn btn-primary">Submit</button>
+                        </form>
+                </div>
+                <div class="col">
+                    <div class="d-flex justify-content-between" style="padding-bottom: 1px;">
+                        <h3>Requests</h1>
+                            <div id="user-info" style="margin-bottom: -26px;">
+                                <h4 style="margin-bottom: 0;">Role: Employee</h4>
+                                <h6 id="userEmp" class="text-success"></h6>
+                            </div>
+                    </div>
                     <hr />
                     <section id="data">
                         <table class="table caption-top table-striped">
@@ -78,6 +87,26 @@
                             </tbody>
                         </table>
                     </section>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal for receipt  -->
+    <div class="modal fade" id="receiptModalEmp" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="receiptModalLabel">Receipt</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>

@@ -1,6 +1,5 @@
 package com.revature.app;
 
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -72,7 +71,7 @@ public class SetupDataInDatabase {
 //		Reimbursement reimb = (Reimbursement) query.uniqueResult();
 //		System.out.println(reimb);
 
-		//Transaction tx = session.beginTransaction();
+		Transaction tx = session.beginTransaction();
 //
 //		User user = session.get(User.class, 5);
 ////		System.out.println(user);
@@ -101,12 +100,12 @@ public class SetupDataInDatabase {
 
 		// Protect user's password. The generated value can be stored in DB.
 		//String mySecurePassword = PasswordUtils.generateSecurePassword("password", salt);
-//		String securePass1 = PasswordUtils.hashPassword("larry123");
-//		String securePass2 = PasswordUtils.hashPassword("jen123");
-//		User m1 = new User(0, "Larry117", securePass1, "Larry", "Johnson", "LarryJ@gmail.com",
-//				new UserRoles(2, "Finance Manager"));
-//		User m2 = new User(0, "Jen117", securePass2, "Jennifer", "Greer", "JenCGreer@yahoo.com",
-//				new UserRoles(2, "Finance Manager"));
+		String securePass1 = PasswordUtils.hashPassword("larry123");
+		String securePass2 = PasswordUtils.hashPassword("jenny123");
+		User m1 = new User(0, "Larry117", securePass1, "Larry", "Johnson", "LarryJ@gmail.com",
+				new UserRoles(2, "Finance Manager"));
+		User m2 = new User(0, "Jenny123", securePass2, "Jennifer", "Greer", "JenCGreer@yahoo.com",
+				new UserRoles(2, "Finance Manager"));
 //
 //		session.save(reimbType);
 //		session.save(reimbType1);
@@ -117,10 +116,10 @@ public class SetupDataInDatabase {
 //		session.save(reimbStatus3);
 //		session.save(ur);
 //		session.save(ur2);
-//		session.save(m1);
-//		session.save(m2);
+		session.save(m1);
+		session.save(m2);
 //
-		//tx.commit();
+		tx.commit();
 
 	}
 

@@ -75,8 +75,20 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void test_BlankUsernameAndPassword() throws InvalidLoginException {
+	public void test_BlankUsernameAndPasswordWithoutSpaces() throws InvalidLoginException {
 		LoginDTO blankInputDTO = new LoginDTO("", "");
+
+		try {
+			userService.login(blankInputDTO);
+			fail("Exception did not occur");
+		} catch (BadParameterException e) {
+			assertEquals(e.getMessage(), "Cannot have blank username and/or password");
+		}
+	}
+	
+	@Test
+	public void test_BlankUsernameAndPasswordBothWithSpaces() throws InvalidLoginException {
+		LoginDTO blankInputDTO = new LoginDTO("  ", "   ");
 
 		try {
 			userService.login(blankInputDTO);
@@ -87,7 +99,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void test_BlankUsernameWithSpaces_BlankPasswordWithoutSpaces() throws InvalidLoginException {
+	public void test_login_BlankUsernameWithSpaces_BlankPasswordWithoutSpaces() throws InvalidLoginException {
 		LoginDTO blankInputDTO = new LoginDTO("       ", "");
 
 		try {
@@ -99,7 +111,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void test_BlankUsernameWithoutSpaces_BlankPasswordWithSpaces() throws InvalidLoginException {
+	public void test_login_BlankUsernameWithoutSpaces_BlankPasswordWithSpaces() throws InvalidLoginException {
 		LoginDTO blankInputDTO = new LoginDTO("", "      ");
 
 		try {

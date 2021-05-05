@@ -32,10 +32,11 @@ public class ReimbursementController implements Controller{
 		ReimbursementDTO reimbDTO = ctx.bodyAsClass(ReimbursementDTO.class);
 		
 		// user form data instead of json 
-		
 		Reimbursement reimb = reimbursementService.addReimb(reimbDTO, author);
 		
+		logger.info("Reimbursements successfully added for: " + author.getUsername());
 		ctx.json(reimb);
+		ctx.status(201);
 	};
 	
 	////////////
@@ -60,6 +61,7 @@ public class ReimbursementController implements Controller{
 		
 		List<Reimbursement> reimbs = reimbursementService.getReimbsByEmployee(author);
 		
+		logger.info("All reimbursements successfully retrieved for: " + author.getUsername());
 		ctx.status(201);
 		ctx.json(reimbs);
 	};
@@ -67,17 +69,17 @@ public class ReimbursementController implements Controller{
 	private Handler getAllReimbursementsHandler = ctx -> {
 		List<Reimbursement> allReimbs = reimbursementService.getAllreimbs(); 
 		
+		logger.info("All reimbursements successfully retrieved");
 		ctx.status(201);
 		ctx.json(allReimbs);
 	};
 	
-	
-	// check setupdata for working example no FE
 	private Handler filterReimbursementsByStatusHandler = ctx -> {
 		StatusDTO statusDTO = ctx.bodyAsClass(StatusDTO.class);
 		
 		List<Reimbursement> filteredList = reimbursementService.filterReimbsByStatus(statusDTO);
 		
+		ctx.status(200);
 		ctx.json(filteredList);
 	};
 	
@@ -88,6 +90,7 @@ public class ReimbursementController implements Controller{
 		
 		Reimbursement updatedReimb = reimbursementService.updateReimb(updateDTO, resolver);
 		
+		logger.info("Reimbursement was updated successfully for: " + resolver.getUsername());
 		ctx.status(204);
 		ctx.json(updatedReimb);
 	};

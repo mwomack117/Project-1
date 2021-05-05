@@ -21,7 +21,7 @@
 		3. validate - validate existing tables against class mappings. If validation fails, application will not 
 		work properly 
 		4. create-drop - same as create, but will drop all tables once SessionFactory is closed -->
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hbm2ddl.auto">validate</property>
 		<!-- <property name="hbm2ddl.auto">create</property> -->
 		<!-- Once all tables are setup and mapped to classes, switch from 'create' to 'validate' -->
 		
