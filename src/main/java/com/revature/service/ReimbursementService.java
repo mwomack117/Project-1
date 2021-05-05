@@ -60,7 +60,12 @@ public class ReimbursementService {
 		return filteredReimbs;
 	}
 
-	public Reimbursement updateReimb(UpdateReimbDTO updateDTO, User resolver) {
+	// add junit tests for this method
+	public Reimbursement updateReimb(UpdateReimbDTO updateDTO, User resolver) throws InvalidUserRoleException {
+		if (resolver.getUserRoles().getId() != 2) {
+			throw new InvalidUserRoleException("You don't have the neccessary credentials to update reimbursements");
+		}
+		
 		Reimbursement updatedReimb = reimbursementRepository.updateReimb(updateDTO, resolver);
 		
 		return updatedReimb;
