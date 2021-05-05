@@ -33,16 +33,21 @@ function login(event) {
 }
 
 function displayInvalidLogin(message) {
-    let bodyElement = document.querySelector("form");
+    // let bodyElement = document.querySelector("form");
 
-    let pElement = document.createElement('p');
-    pElement.style.color = 'red';
-    pElement.innerHTML = message;
+    // let pElement = document.createElement('p');
+    // pElement.style.color = 'red';
+    // pElement.innerHTML = message;
 
-    bodyElement.appendChild(pElement);
+    // bodyElement.appendChild(pElement);
+
+    //
+    let loginError = document.getElementById("errorLogin");
+    loginError.innerHTML = message;
 
     setTimeout(function () {
-        pElement.innerHTML = "";
+        loginError.innerHTML = "";
+        //pElement.innerHTML = "";
     }, 2000);
 
 }

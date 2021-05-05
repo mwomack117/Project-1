@@ -27,6 +27,7 @@ import com.revature.exceptions.BadParameterException;
 import com.revature.exceptions.BadReimbursementFormatException;
 import com.revature.exceptions.BadReimbursmentAmountException;
 import com.revature.exceptions.InvalidLoginException;
+import com.revature.exceptions.InvalidUserRoleException;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
@@ -137,7 +138,7 @@ public class ReimbursementServiceTest {
 	}
 	
 	@Test 
-	public void test_getAllReimbursments() {		
+	public void test_getAllReimbursments_WithValidCredentials() throws InvalidUserRoleException {		
 		Timestamp date = new Timestamp(0);
 		User userAuthor = new User(1, "userEmp", "password", "john", "doe", "john@email.com",
 				new UserRoles(1, "Employee"));
@@ -151,10 +152,33 @@ public class ReimbursementServiceTest {
 		List<Reimbursement> reimbList = new ArrayList<>();
 		reimbList.add(reimb);
 		
-		List<Reimbursement> actual = reimbursementService.getAllreimbs();
+		List<Reimbursement> actual = reimbursementService.getAllreimbs(userResolver);
 		List<Reimbursement> expected =  reimbList;
 		
 		assertEquals(expected, actual);
+	}
+	
+	@Test 
+	public void test_getAllReimbursments_WithOutValidCredentials() throws InvalidUserRoleException {		
+		Timestamp date = new Timestamp(0);
+		User userEmp = new User(1, "userEmp", "password", "john", "doe", "john@email.com",
+				new UserRoles(1, "Employee"));
+		User userMngr = new User(2, "userMngr", "password", "jane", "smith", "jane@email.com",
+				new UserRoles(2, "Finance Manager"));
+		ReimbursementStatus reimbStatus = new ReimbursementStatus(1, "Pending");
+		ReimbursementType reimbType = new ReimbursementType(1, "Dining");
+		
+		Reimbursement reimb = new Reimbursement(1,200.00, date, date, "Hotel stay", null, userEmp, userMngr, reimbStatus, reimbType);
+		
+		List<Reimbursement> reimbList = new ArrayList<>();
+		reimbList.add(reimb);
+		
+		try {
+			reimbursementService.getAllreimbs(userEmp);
+			fail("Exception did not occur");
+		} catch (InvalidUserRoleException e) {
+			assertEquals(e.getMessage(), "You don't have the neccessary credentials to access all reimbursements");
+		}	
 	}
 
 	

@@ -67,7 +67,9 @@ public class ReimbursementController implements Controller{
 	};
 	
 	private Handler getAllReimbursementsHandler = ctx -> {
-		List<Reimbursement> allReimbs = reimbursementService.getAllreimbs(); 
+		User author = (User) ctx.sessionAttribute("currentlyLoggedInUser");
+		
+		List<Reimbursement> allReimbs = reimbursementService.getAllreimbs(author); 
 		
 		logger.info("All reimbursements successfully retrieved");
 		ctx.status(201);

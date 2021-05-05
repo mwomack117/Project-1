@@ -120,7 +120,8 @@ function populateData(response) {
         let tdRslvdDate = document.createElement("td");
         const RsvlDateObject = new Date(item.reimbResolved);
         const rsvlFormattedDate = RsvlDateObject.toLocaleString(); //change toLocalString() when full data + time is retrieved
-        tdRslvdDate.innerHTML = rsvlFormattedDate;
+        //tdRslvdDate.innerHTML = rsvlFormattedDate;
+        tdRslvdDate.innerHTML = item.reimbSubmitted === item.reimbResolved ? "" : rsvlFormattedDate;
 
         let tdRslvdBy = document.createElement('td');
         tdRslvdBy.innerHTML = item.resolver === null ? "" : item.resolver.firstName + " " + item.resolver.lastName;

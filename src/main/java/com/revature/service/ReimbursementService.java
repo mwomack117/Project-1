@@ -8,6 +8,7 @@ import com.revature.dto.StatusDTO;
 import com.revature.dto.UpdateReimbDTO;
 import com.revature.exceptions.BadReimbursementFormatException;
 import com.revature.exceptions.BadReimbursmentAmountException;
+import com.revature.exceptions.InvalidUserRoleException;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementType;
 import com.revature.models.User;
@@ -43,7 +44,11 @@ public class ReimbursementService {
 		return reimbs;
 	}
 
-	public List<Reimbursement> getAllreimbs() {
+	public List<Reimbursement> getAllreimbs(User author) throws InvalidUserRoleException {
+		if (author.getUserRoles().getId() != 2) {
+			throw new InvalidUserRoleException("You don't have the neccessary credentials to access all reimbursements");
+		}
+		
 		List<Reimbursement> allReimbs = reimbursementRepository.getAllReimbs();
 		
 		return allReimbs;
