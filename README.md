@@ -3,19 +3,20 @@ ERS is an appliacation that manages the process of reimbursing employees for exp
 
 ## Technologies used
 #### Backend
-- Java
-- MariaDB
-- Javalin
+- **Java** - OOP server-side programming language
+- **MariaDB** - Relational database for data persistence
+- **Javalin** - Web framework for route and exception handling
 #### Frontend
-- Javascript
-- HTML
-- CSS and Bootstrap
+- **Javascript** - Add dynamic behavior and communicate user input to the backend
+- **HTML**
+- **CSS and Bootstrap** - Styling the UI of website
 #### Testting
-- JUnit
-- Mockito
+- **JUnit** - Framework to write unit tests for test driven development
+- **Mockito** - Mock objects for unit tests
 #### Other
-- Hibernate ORM
-- Logback
+- **Hibernate ORM** - Map Java classes to database tables and from Java data types to SQL data type
+- **Logback** - Log important feedback to the console and append to a log file
+- **SonarCloud** - Analyze code quality
 
 ![image signin](./src/main/resources/static/assets/images/signIn.png)
 ![image Employee View](./src/main/resources/static/assets/images/EmpDash.png)
